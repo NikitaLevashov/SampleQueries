@@ -241,5 +241,62 @@ namespace SampleQueries
                 Console.WriteLine($"Id: {group.ProductID} + ProductName: {group.ProductName}");
             }
         }
+
+        [Category("Category11")]
+        [Title("Title11")]
+        [Description("")]
+        public void LinqQuery11()
+        {
+            var customers = list.GetSupplierList();
+            var query = customers
+               .GroupBy(a => a.City)
+               .Select(c => new
+               {
+                   c.Key
+               });
+
+            foreach (var group in query)
+            {
+                Console.WriteLine($"Id: {group.Key}");
+            }
+        }
+
+        [Category("Category12")]
+        [Title("Title12")]
+        [Description("")]
+        public void LinqQuery12()
+        {
+            var products = list.GetProductList();
+
+            var query =
+                from prod in products
+                where prod.UnitPrice > 50
+                orderby prod.UnitPrice
+                select prod;
+
+            foreach (var group in query)
+            {
+                Console.WriteLine($"{group.ProductName} {group.UnitPrice}");
+            }
+        }
+
+        [Category("Category13")]
+        [Title("Title13")]
+        [Description("")]
+        public void LinqQuery13()
+        {
+            var customers = list.GetCustomerList();
+
+            var query =
+                from cust in customers
+                from order in cust.Orders
+                where order.Total > 1200
+                select new { cust.CompanyName, order.OrderID, order.Total };
+
+            foreach (var group in query)
+            {
+                Console.WriteLine($"{group.CompanyName} {group.OrderID} {group.Total}");
+            }
+        }
     }
 }
